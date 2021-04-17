@@ -1,9 +1,16 @@
 import objects
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 app = Flask(__name__)
+CORS(app)
 
 users = []
 medicines = []
+
+
+@app.route("/")
+def root():
+    return app.send_static_file("index.html")
 
 
 @app.route("/signup", methods=["POST"])
