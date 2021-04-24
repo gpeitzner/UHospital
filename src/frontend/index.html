@@ -1,112 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>UHospital</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body>
-    <nav class="navbar navbar-dark bg-dark mb-5">
-      <a class="navbar-brand" href="#">
-        <img
-          src="./assets/hospital.png"
-          width="30"
-          height="30"
-          class="d-inline-block align-top"
-          alt=""
-        />
-        UHospital
-      </a>
-    </nav>
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <h1 class="text-center mb-5">Login</h1>
-          <form id="loginForm">
-            <div class="form-group">
-              <label for="nickname">Nickname</label>
-              <input
-                type="text"
-                class="form-control"
-                id="nickname"
-                aria-describedby="nicknameHelp"
-                placeholder="Enter nickname"
-              />
-              <small id="nicknameHelp" class="form-text text-muted"
-                >We'll never share your nickname with anyone else.</small
-              >
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input
-                type="password"
-                class="form-control"
-                id="password"
-                placeholder="Password"
-              />
-            </div>
-            <button id="login" type="submit" class="btn btn-primary w-100">
-              Submit
-            </button>
-          </form>
-        </div>
-        <div class="col">
-          <h1 class="text-center mb-5">Signup</h1>
-        </div>
-      </div>
-    </div>
-    <script>
-      let loginForm = document.getElementById("loginForm");
-      let nicknameInput = document.getElementById("nickname");
-      let passwordInput = document.getElementById("password");
-      let loginButton = document.getElementById("login");
-      loginForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-      });
-      loginButton.addEventListener("click", (e) => {
-        console.log(nicknameInput.value, passwordInput.value);
-        fetch("http://localhost:5000/login", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({
-            nickname: nicknameInput.value,
-            password: passwordInput.value,
-          }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.message) {
-              console.error(data);
-            } else {
-              window.location = "home.html";
-            }
-          })
-          .catch((error) => console.error(error));
-      });
-    </script>
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>UHospital</title>
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+			crossorigin="anonymous"
+		/>
+	</head>
+	<body>
+		<nav class="navbar navbar-dark bg-dark mb-5">
+			<a class="navbar-brand" href="#">
+				<img
+					src="./assets/hospital.png"
+					width="30"
+					height="30"
+					class="d-inline-block align-top"
+					alt=""
+				/>
+				UHospital
+			</a>
+		</nav>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<h1 class="text-center mb-5">Login</h1>
+					<form id="loginForm">
+						<div class="form-group">
+							<label for="loginNickname">Nickname</label>
+							<input
+								type="text"
+								class="form-control"
+								id="loginNickname"
+								aria-describedby="nicknameHelp"
+								placeholder="Enter your nickname"
+							/>
+						</div>
+						<div class="form-group">
+							<label for="loginPassword">Password</label>
+							<input
+								type="password"
+								class="form-control"
+								id="loginPassword"
+								placeholder="Enter your password"
+							/>
+						</div>
+						<button id="loginButton" type="submit" class="btn btn-primary w-100">
+							Login
+						</button>
+					</form>
+				</div>
+				<div class="col">
+					<h1 class="text-center mb-5">Signup</h1>
+					<form id="signupForm">
+						<div class="form-group">
+							<label for="signupFirstName">Fist name</label>
+							<input
+								type="text"
+								class="form-control"
+								id="signupFirstName"
+								placeholder="Enter your first name"
+							/>
+						</div>
+						<div class="form-group">
+							<label for="signupLastName">Last Name</label>
+							<input
+								type="text"
+								class="form-control"
+								id="signupLastName"
+								placeholder="Enter your last name"
+							/>
+						</div>
+						<div class="form-group">
+							<label for="signupBornDate">Born Date</label>
+							<input
+								type="date"
+								class="form-control"
+								id="signupBornDate"
+								placeholder="Enter your born date"
+							/>
+						</div>
+						<div class="form-group">
+							<label for="signupGender">Gender</label>
+							<select id="signupGender" class="form-control">
+								<option value="M">M</option>
+								<option value="F">F</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="signupNickname">Nickname</label>
+							<input
+								type="text"
+								class="form-control"
+								id="signupNickname"
+								placeholder="Enter nickname"
+							/>
+						</div>
+						<div class="form-group">
+							<label for="signupPassword">Password</label>
+							<input
+								type="password"
+								class="form-control"
+								id="signupPassword"
+								placeholder="Enter a password"
+							/>
+						</div>
+						<div class="form-group">
+							<label for="signupPhone">Phone</label>
+							<input
+								type="number"
+								class="form-control"
+								id="signupPhone"
+								placeholder="Enter your phone"
+							/>
+						</div>
+						<button id="signupButton" type="submit" class="btn btn-primary w-100">
+							Signup
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<script>
+			//Login
+			let loginForm = document.getElementById("loginForm");
+			let loginNickname = document.getElementById("loginNickname");
+			let loginPassword = document.getElementById("loginPassword");
+			let loginButton = document.getElementById("loginButton");
+			loginForm.addEventListener("submit", (e) => {
+				e.preventDefault();
+			});
+			loginButton.addEventListener("click", (e) => {
+				const credentials = {
+					nickname: loginNickname.value,
+					password: loginPassword.value,
+				};
+				console.log(credentials);
+				fetch("http://localhost:5000/login", {
+					method: "POST",
+					headers: {
+						"content-type": "application/json",
+					},
+					body: JSON.stringify(credentials),
+				})
+					.then((response) => response.json())
+					.then((data) => {
+						if (data.message) {
+							console.error(data);
+						} else {
+							let params = `first_name=${data.first_name}`;
+							params += `&last_name=${data.last_name}`;
+							params += `&date=${data.date}`;
+							params += `&gender=${data.gender}`;
+							params += `&nickname=${data.nickname}`;
+							params += `&password=${data.password}`;
+							params += `&phone=${data.phone}`;
+							window.location = "home.html?" + params;
+						}
+					})
+					.catch((error) => console.error(error));
+			});
+
+			//Signup
+			let signupForm = document.getElementById("signupForm");
+			let signupFirstName = document.getElementById("signupFirstName");
+			let signupLastName = document.getElementById("signupLastName");
+			let signupBornDate = document.getElementById("signupBornDate");
+			let signupGender = document.getElementById("signupGender");
+			let signupNickname = document.getElementById("signupNickname");
+			let signupPassword = document.getElementById("signupPassword");
+			let signupPhone = document.getElementById("signupPhone");
+			let signupButton = document.getElementById("signupButton");
+			signupForm.addEventListener("submit", (e) => {
+				e.preventDefault();
+			});
+			signupButton.addEventListener("click", (e) => {
+				const newUser = {
+					first_name: signupFirstName.value,
+					last_name: signupLastName.value,
+					date: signupBornDate.value,
+					gender: signupGender.value,
+					nickname: signupNickname.value,
+					password: signupPassword.value,
+					phone: signupPhone.value,
+				};
+				console.log(newUser);
+				fetch("http://localhost:5000/signup", {
+					method: "POST",
+					headers: {
+						"content-type": "application/json",
+					},
+					body: JSON.stringify(newUser),
+				})
+					.then((response) => response.json())
+					.then((data) => {
+						if (data.message) {
+							console.error(data);
+						} else {
+							let params = `first_name=${data.first_name}`;
+							params += `&last_name=${data.last_name}`;
+							params += `&date=${data.date}`;
+							params += `&gender=${data.gender}`;
+							params += `&nickname=${data.nickname}`;
+							params += `&password=${data.password}`;
+							params += `&phone=${data.phone}`;
+							window.location = "home.html?" + params;
+						}
+					})
+					.catch((error) => console.error(error));
+			});
+		</script>
+		<script
+			src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+			integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+			integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+			integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+			crossorigin="anonymous"
+		></script>
+	</body>
 </html>
