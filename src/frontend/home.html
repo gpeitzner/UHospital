@@ -41,18 +41,21 @@
 			<div class="d-flex flex-column" id="medicines"></div>
 		</div>
 		<script>
+			//getting URL parameters
 			const queryStrings = window.location.search;
 			const urlParams = new URLSearchParams(queryStrings);
 			const firstName = urlParams.get("first_name");
 			const lastName = urlParams.get("last_name");
+
+			//getting inputs
 			let currentUser = document.getElementById("currentUser");
 			currentUser.innerText = `Bienvenido ${firstName} ${lastName}!`;
 			let medicines = document.getElementById("medicines");
 			let medicinesFileInput = document.getElementById("medicinesFileInput");
 			let loadMedicines = document.getElementById("loadMedicines");
 
+			//getting medicines
 			getMedicines();
-
 			function getMedicines() {
 				fetch("http://localhost:5000/medicine")
 					.then((response) => response.json())
@@ -94,6 +97,7 @@
 					.catch((error) => console.error(error));
 			}
 
+			//loading medicines
 			loadMedicines.addEventListener("click", () => {
 				let file = medicinesFileInput.files[0];
 				let reader = new FileReader();
