@@ -1,4 +1,5 @@
 import objects
+from xhtml2pdf import pisa
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 app = Flask(__name__)
@@ -8,9 +9,30 @@ users = []
 medicines = []
 
 
-@app.route("/")
-def root():
-    return app.send_static_file("index.html")
+@app.route("/reports/medicine")
+def medicines_report():
+    html = '<!DOCTYPE html>'
+    html += '<html lang="en">'
+    html += '<head>'
+    html += "<title>Medicines</title>"
+    html += "</head>"
+    html += "<body>"
+    html += '<table style="width:100%; border: 1px solid black; margin: 5px">'
+    html += '<tr><th>Name</th><th>Description</th><th>Quantity</th><th>Price</th></tr>'
+    for medicine in medicines:
+        html += "<tr>"
+        html += "<td>" + medicine.name + "</td>"
+        html += "<td>" + medicine.description + "</td>"
+        html += "<td>" + medicine.quantity + "</td>"
+        html += "<td>" + medicine.price + "</td>"
+        html += "</tr>"
+    html += "</table>"
+    html += "</body>"
+    html += '</html >'
+    result_file = open("./static/medicines.pdf", "w+b")
+    pisa_status = pisa.CreatePDF(html, dest=result_file)
+    result_file.close()
+    return app.send_static_file("medicines.pdf")
 
 
 @app.route("/signup", methods=["POST"])
