@@ -29,6 +29,15 @@
 			<h1>Admin Dashboard</h1>
 			<p id="currentUser"></p>
 			<h3>Medicinas</h3>
+			<div>
+				<span><input type="file" id="medicinesFileInput" /></span>
+				<span
+					><button id="loadMedicines" class="btn btn-success">
+						Cargar medicinas
+					</button></span
+				>
+			</div>
+
 			<div class="d-flex flex-column" id="medicines"></div>
 		</div>
 		<script>
@@ -39,6 +48,8 @@
 			let currentUser = document.getElementById("currentUser");
 			currentUser.innerText = `Bienvenido ${firstName} ${lastName}!`;
 			let medicines = document.getElementById("medicines");
+			let medicinesFileInput = document.getElementById("medicinesFileInput");
+			let loadMedicines = document.getElementById("loadMedicines");
 
 			getMedicines();
 
@@ -82,6 +93,40 @@
 					})
 					.catch((error) => console.error(error));
 			}
+
+			loadMedicines.addEventListener("click", () => {
+				let file = medicinesFileInput.files[0];
+				let reader = new FileReader();
+				reader.readAsText(file);
+				reader.onload = () => {
+					let data = reader.result;
+					let medicines = data.split("\n");
+					medicines = medicines.splice(1, medicines.length - 1);
+					medicines.forEach((medicine) => {
+						if (medicine !== "") {
+							let medicineData = medicine.split(",");
+							const newMedicine = {
+								name: medicineData[0],
+								price: medicineData[1],
+								description: medicineData[2],
+								quantity: medicineData[3],
+							};
+							console.log(newMedicine);
+							fetch("http://localhost:5000/medicine", {
+								method: "POST",
+								headers: {
+									"content-type": "application/json",
+								},
+								body: JSON.stringify(newMedicine),
+							})
+								.then((response) => response.json())
+								.then((data) => getMedicines())
+								.catch((error) => console.error(error));
+						}
+					});
+				};
+				reader.onerror = () => console.error(reader.error);
+			});
 		</script>
 		<script
 			src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
