@@ -1,0 +1,4 @@
+xhtml2pdf
+flask
+flask_cors
+gunicorn
